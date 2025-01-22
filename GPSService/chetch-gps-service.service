@@ -7,7 +7,7 @@
 
 
 [Unit]
-Description=Chetch Worker XMPP Test
+Description=Chetch GPS Service
 
 [Service]
 Type=simple
