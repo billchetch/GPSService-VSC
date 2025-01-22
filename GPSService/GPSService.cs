@@ -15,6 +15,10 @@ public class GPSService : ChetchXMPPService<GPSService>
     //public const String COMMAND_SATELLITES = "satellites";
     #endregion
 
+    #region Classes and Enums
+    
+    #endregion
+
     #region Fields
     GPSManager gpsManager = new GPSManager();
 
@@ -30,8 +34,15 @@ public class GPSService : ChetchXMPPService<GPSService>
     #region Service Lifecycle
     protected override Task Execute(CancellationToken stoppingToken)
     {
-
-        gpsManager.StartRecording();
+        try
+        {
+            gpsManager.StartRecording();
+            Logger.LogInformation("GPS manager started recording, receiver conneted: {0}", gpsManager.IsReceiverConnected);
+        } 
+        catch (Exception e)
+        {
+             Logger.LogError(e, e.Message);
+        }
 
         return base.Execute(stoppingToken);
     }
@@ -39,6 +50,7 @@ public class GPSService : ChetchXMPPService<GPSService>
     public override Task StopAsync(CancellationToken cancellationToken)
     {
         gpsManager.StopRecording();
+
 
         return base.StopAsync(cancellationToken);
     }
@@ -63,9 +75,9 @@ public class GPSService : ChetchXMPPService<GPSService>
                 return true;
 
             case COMMAND_POSITION:
-                if(gpsManager.IsReceivingGPSData)
+                if(!gpsManager.IsReceiverConnected)
                 {
-                    throw new ChetchXMPPServiceException("No position data available as device is currently not receiving GPS data");
+                    throw new ChetchXMPPServiceException("No position data available as device is currently not connected");
                 }
                 response.AddValue("Position", gpsManager.CurrentPosition);
                 return true;
