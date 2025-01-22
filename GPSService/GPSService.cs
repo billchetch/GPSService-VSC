@@ -77,7 +77,7 @@ public class GPSService : ChetchXMPPService<GPSService>
             case COMMAND_POSITION:
                 if(!gpsManager.IsReceiverConnected)
                 {
-                    throw new ChetchXMPPServiceException("No position data available as device is currently not connected");
+                    throw new ChetchXMPPServiceException("No position data available as GPS receiver is currently not connected");
                 }
                 response.AddValue("Position", gpsManager.CurrentPosition);
                 return true;
