@@ -1,0 +1,16 @@
+# 1. Sudo copy this file to  /etc/systemd/system/
+# 2. Chmod the copied file to 777
+# 3. Reload services with: sudo systemctl daemon-reload
+# 4. Check status with sudo systemctl status <file basename>
+# 5. To have the service run on start up: sudo systemctl enable <file basename>
+
+
+[Unit]
+Description=Chetch Worker XMPP Test
+
+[Service]
+Type=simple
+ExecStart=/home/pi/.dotnet/dotnet /home/pi/Documents/VisualStudioProjects/Services/GPSService/GPSService/bin/Debug/net9.0/GPSService.dll
+
+[Install]
+WantedBy=multi-user.target
