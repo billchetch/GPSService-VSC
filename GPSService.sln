@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "..\..\Libraries
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messaging", "..\..\Libraries\Messaging\Messaging\Messaging.csproj", "{33CA12A5-8460-4F00-8E3B-24750FCF0731}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "..\..\Libraries\Services\Services\Services.csproj", "{BE3683A5-870E-4AF9-BCF7-DE5C596877C2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{33CA12A5-8460-4F00-8E3B-24750FCF0731}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33CA12A5-8460-4F00-8E3B-24750FCF0731}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33CA12A5-8460-4F00-8E3B-24750FCF0731}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE3683A5-870E-4AF9-BCF7-DE5C596877C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE3683A5-870E-4AF9-BCF7-DE5C596877C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE3683A5-870E-4AF9-BCF7-DE5C596877C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE3683A5-870E-4AF9-BCF7-DE5C596877C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
