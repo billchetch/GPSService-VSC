@@ -78,6 +78,10 @@ public class GPSService : ChetchXMPPService<GPSService>, AlarmManager.IAlarmRais
         catch (Exception e)
         {
              Logger.LogError(e, e.Message);
+             if(!gpsManager.IsReceiverConnected)
+             {
+                AlarmManager.Raise(GPS_ALARM_DISCONNECDTED, AlarmManager.AlarmState.MODERATE, "GPS Receiver cannot connect!");
+             }
         }
 
         return base.Execute(stoppingToken);
