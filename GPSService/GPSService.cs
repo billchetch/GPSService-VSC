@@ -53,13 +53,16 @@ public class GPSService : ChetchXMPPService<GPSService>, AlarmManager.IAlarmRais
         try
         {
             AlarmManager.AlarmChanged += (mgr, alarm) => {
-                var msg = AlarmManager.CreateAlertMessage(alarm);
-                SendMessage(msg);
+                if(ServiceConnected)
+                {
+                    var msg = AlarmManager.CreateAlertMessage(alarm);
+                    SendMessage(msg);
+                }
             };
             AlarmManager.AddRaiser(this);
             AlarmManager.Connect(this);
 
-            gpsManager.RecieverConnected += (sender, connected) => {
+            gpsManager.ReceiverConnected += (sender, connected) => {
                 if(!connected)
                 {
                     AlarmManager.Raise(GPS_ALARM_DISCONNECDTED, AlarmManager.AlarmState.MODERATE, "GPS Receiver has disconnected");
