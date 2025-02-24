@@ -15,6 +15,8 @@ public class GPSService : ChetchXMPPService<GPSService>, AlarmManager.IAlarmRais
     public const String COMMAND_POSITION = "position";
     //public const String COMMAND_SATELLITES = "satellites";
 
+    public const String BBALARMS_SERVICE = "bbalarms.service@openfire.bb.lan";
+
     public const String GPS_ALARM_DISCONNECDTED = "gps-alarm";
     #endregion
 
@@ -55,7 +57,7 @@ public class GPSService : ChetchXMPPService<GPSService>, AlarmManager.IAlarmRais
             AlarmManager.AlarmChanged += (mgr, alarm) => {
                 if(ServiceConnected)
                 {
-                    var msg = AlarmManager.CreateAlertMessage(alarm);
+                    var msg = AlarmManager.CreateAlertMessage(alarm, BBALARMS_SERVICE);
                     SendMessage(msg);
                 }
             };
