@@ -71,6 +71,7 @@ public class GPSService : ChetchXMPPService<GPSService>, AlarmManager.IAlarmRais
                 {
                     AlarmManager.Lower(GPS_ALARM_DISCONNECDTED, "GPS Receiver has connected");
                 }
+                Logger.LogWarning("Receiver connected: {0}", connected);
             };
             gpsManager.StartRecording();
             Logger.LogInformation("GPS manager started recording, receiver conneted: {0}", gpsManager.IsReceiverConnected);
@@ -102,7 +103,7 @@ public class GPSService : ChetchXMPPService<GPSService>, AlarmManager.IAlarmRais
     protected override void AddCommands()
     {
         AddCommand(COMMAND_POSITION, "Returns current position info (will error if GPS device is not receiving)");
-
+        AddCommand(AlarmManager.COMMAND_LIST_ALARMS, "Lists alarms in this service");
         base.AddCommands();
     }
 
@@ -124,6 +125,10 @@ public class GPSService : ChetchXMPPService<GPSService>, AlarmManager.IAlarmRais
 
             /*case COMMAND_SATELLITES:
                 return true;*/
+
+            case AlarmManager.COMMAND_LIST_ALARMS:
+                AlarmManager.AddAlarmsListToMessage(response);
+                return true;
 
             default:
                 return base.HandleCommandReceived(command, arguments, response);
