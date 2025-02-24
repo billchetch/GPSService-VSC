@@ -17,7 +17,7 @@ public class GPSService : ChetchXMPPService<GPSService>, AlarmManager.IAlarmRais
 
     public const String BBALARMS_SERVICE = "bbalarms.service@openfire.bb.lan";
 
-    public const String GPS_ALARM_DISCONNECDTED = "gps-alarm";
+    public const String GPS_ALARM_DISCONNECDTED = "gps";
     #endregion
 
     #region Classes and Enums
