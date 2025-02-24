@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../../../Libraries/Alarms/Alarms/Alarms.csproj" />
     <ProjectReference Include="../../../Libraries/ChetchXMPP/ChetchXMPP/ChetchXMPP.csproj" />
     <ProjectReference Include="../../../Libraries/Database/Database/Database.csproj" />
     <ProjectReference Include="../../../Libraries/GPS/GPS/GPS.csproj" />

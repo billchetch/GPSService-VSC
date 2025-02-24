@@ -3,39 +3,72 @@ using Chetch.ChetchXMPP.Exceptions;
 using Chetch.Database;
 using Chetch.GPS;
 using Chetch.Messaging;
+using Chetch.Alarms;
 
 namespace Chetch.GPSService;
 
 
-public class GPSService : ChetchXMPPService<GPSService>
+public class GPSService : ChetchXMPPService<GPSService>, AlarmManager.IAlarmRaiser
 {
     #region Constants
     public const String COMMAND_STATUS = "status";
     public const String COMMAND_POSITION = "position";
     //public const String COMMAND_SATELLITES = "satellites";
+
+    public const String GPS_ALARM_DISCONNECDTED = "gps-alarm";
     #endregion
 
     #region Classes and Enums
     
     #endregion
 
-    #region Fields
-    GPSManager gpsManager = new GPSManager();
+    #region Properties
+    public AlarmManager AlarmManager { get; set; } = new AlarmManager();
 
     #endregion
 
+    #region Fields
+    GPSManager gpsManager = new GPSManager();
+    #endregion
+
+    #region Constructors
     public GPSService(ILogger<GPSService> Logger) : base(Logger)
     {
         ChetchDbContext.Config = Config;
 
         
     }
+    #endregion
+    
+    #region Alarm Registtration
+    public void RegisterAlarms()
+    {
+        AlarmManager.RegisterAlarm(this, GPS_ALARM_DISCONNECDTED);
+    }
+    #endregion
 
     #region Service Lifecycle
     protected override Task Execute(CancellationToken stoppingToken)
     {
         try
         {
+            AlarmManager.AlarmChanged += (mgr, alarm) => {
+                var msg = AlarmManager.CreateAlertMessage(alarm);
+                SendMessage(msg);
+            };
+            AlarmManager.AddRaiser(this);
+            AlarmManager.Connect(this);
+
+            gpsManager.RecieverConnected += (sender, connected) => {
+                if(!connected)
+                {
+                    AlarmManager.Raise(GPS_ALARM_DISCONNECDTED, AlarmManager.AlarmState.MODERATE, "GPS Receiver has disconnected");
+                }
+                else
+                {
+                    AlarmManager.Lower(GPS_ALARM_DISCONNECDTED, "GPS Receiver has connected");
+                }
+            };
             gpsManager.StartRecording();
             Logger.LogInformation("GPS manager started recording, receiver conneted: {0}", gpsManager.IsReceiverConnected);
         } 
@@ -89,5 +122,5 @@ public class GPSService : ChetchXMPPService<GPSService>
                 return base.HandleCommandReceived(command, arguments, response);
         }
     }
-    #endregion 
+    #endregion
 }
