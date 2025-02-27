@@ -62,8 +62,7 @@ public class GPSService : ChetchXMPPService<GPSService>, AlarmManager.IAlarmRais
                 }
             };
             AlarmManager.AddRaiser(this);
-            AlarmManager.Connect(this);
-
+            
             gpsManager.ReceiverConnected += (sender, connected) => {
                 if(!connected)
                 {
