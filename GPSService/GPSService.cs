@@ -4,6 +4,7 @@ using Chetch.Database;
 using Chetch.GPS;
 using Chetch.Messaging;
 using Chetch.Alarms;
+using Microsoft.Extensions.Hosting.Systemd;
 
 namespace Chetch.GPSService;
 
@@ -62,6 +63,13 @@ public class GPSService : ChetchXMPPService<GPSService>, AlarmManager.IAlarmRais
                 }
             };
             AlarmManager.AddRaiser(this);
+
+            ServiceChanged += (sender, serviceEvent) => {
+                if(serviceEvent == ServiceEvent.Connected)
+                {
+                    AlarmManager.Connect(this);
+                }
+            };
             
             gpsManager.ReceiverConnected += (sender, connected) => {
                 if(!connected)
@@ -91,6 +99,7 @@ public class GPSService : ChetchXMPPService<GPSService>, AlarmManager.IAlarmRais
 
     public override Task StopAsync(CancellationToken cancellationToken)
     {
+        AlarmManager.Disconnect(this);
         gpsManager.StopRecording();
 
 
