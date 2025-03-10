@@ -55,14 +55,19 @@ public class GPSService : ChetchXMPPService<GPSService>, AlarmManager.IAlarmRais
     {
         try
         {
-            AlarmManager.AlarmChanged += (mgr, alarm) => {
-                if(ServiceConnected)
+            AlarmManager.AlarmDequeued += (mgr, alarm) => {
+                try
                 {
                     var msg = AlarmManager.CreateAlertMessage(alarm, BBALARMS_SERVICE);
                     SendMessage(msg);
                 }
+                catch (Exception e)
+                {
+                    Logger.LogError(e, e.Message);
+                }
             };
             AlarmManager.AddRaiser(this);
+            AlarmManager.Run(() => ServiceConnected, stoppingToken);
 
             ServiceChanged += (sender, serviceEvent) => {
                 if(serviceEvent == ServiceEvent.Connected)
