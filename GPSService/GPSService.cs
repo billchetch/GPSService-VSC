@@ -145,9 +145,9 @@ public class GPSService : ChetchXMPPService<GPSService>, AlarmManager.IAlarmRais
         }
     }
 
-    protected override void PopulateServiceStatusResponse(Message response)
+    protected override void PopulateStatusResponse(Message response)
     {
-        base.PopulateServiceStatusResponse(response);
+        base.PopulateStatusResponse(response);
         
         response.AddValue("ReceiverConnected", gpsManager.IsReceiverConnected);
     }
