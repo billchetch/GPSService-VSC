@@ -12,7 +12,6 @@ namespace Chetch.GPSService;
 public class GPSService : ChetchXMPPService<GPSService>, AlarmManager.IAlarmRaiser
 {
     #region Constants
-    public const String COMMAND_STATUS = "status";
     public const String COMMAND_POSITION = "position";
     //public const String COMMAND_SATELLITES = "satellites";
 
@@ -126,10 +125,6 @@ public class GPSService : ChetchXMPPService<GPSService>, AlarmManager.IAlarmRais
     {
         switch (command.Command)
         {
-            case COMMAND_STATUS:
-
-                return true;
-
             case COMMAND_POSITION:
                 if(!gpsManager.IsReceiverConnected)
                 {
